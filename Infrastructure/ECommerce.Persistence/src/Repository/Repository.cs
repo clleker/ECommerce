@@ -15,7 +15,7 @@ namespace ECommerce.Persistence.Repository
          where TContext : DbContext
 
     {
-        readonly private TContext _context;
+        private readonly TContext _context;
         private readonly EntityAuditingOptions _entityAuditingOptions = new EntityAuditingOptions();
 
         public Repository(TContext context)

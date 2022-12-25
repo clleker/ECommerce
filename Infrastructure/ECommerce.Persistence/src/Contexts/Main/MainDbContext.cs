@@ -1,4 +1,5 @@
-﻿using ECommerce.Core.Domain.AppUser;
+﻿using Castle.Core.Configuration;
+using ECommerce.Core.Domain.AppUser;
 using ECommerce.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -18,6 +19,7 @@ namespace ECommerce.Persistence.Contexts.Main
         : base(options)
         {
         }
+       
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerSetting> CustomerSettings { get; set; }
         public DbSet<AppUser> Users { get; set; }
