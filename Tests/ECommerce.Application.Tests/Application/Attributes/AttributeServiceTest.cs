@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
-using ECommerce.Application.Abstracts.Attribute;
-using ECommerce.Application.Constants;
-using ECommerce.Application.Services;
-using ECommerce.Core.Application.ObjectDesign;
 using ECommerce.Core.Persistance.Repository;
 using ECommerce.Domain.Entities;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Moq;
-using NUnit.Framework;
-using System.Threading.Tasks;
+
 
 namespace ECommerce.Application.Tests.FeaturesTests.Attributes
 {

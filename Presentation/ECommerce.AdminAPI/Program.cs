@@ -2,12 +2,15 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
+using Core.Utilities.Security.Encyption;
 using ECommerce.Application;
 using ECommerce.Core.CrossCuttingConcerns.Logging;
 using ECommerce.Core.CrossCuttingConcerns.Logging.Serilog;
+using ECommerce.Core.Utilities.Security;
 using ECommerce.Infrastructure;
 using ECommerce.Persistance;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +42,20 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 //builder.Services.AddSingleton<LoggerServiceBase, MssqlLogger>();
-
+TokenOptions? tokenOptions = builder.Configuration.GetSection("UserTokenOptions").Get<TokenOptions>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = tokenOptions.Issuer,
+        ValidAudience = tokenOptions.Audience,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+    };
+});
 
 var app = builder.Build();
 
@@ -50,7 +66,6 @@ app.UseCors(builder => builder.WithOrigins(
            .AllowAnyHeader()
            .AllowAnyOrigin()
            .AllowAnyMethod());
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -60,6 +75,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

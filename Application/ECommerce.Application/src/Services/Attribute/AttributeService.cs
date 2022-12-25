@@ -32,10 +32,11 @@ namespace ECommerce.Application.Services
               return new ErrorResult(Messages.AttributeAlreadyExist);
             }
 
-            await _attributeRepository.AddAsync(attribute);
+            await _attributeRepository.AddAsync(attribute).ConfigureAwait(false);
 
             return new SuccessResult();
         }
+
         public async Task<IResult> DeleteAsync(int id)
         {
             await _attributeRepository.DeleteAsync(new Attribute_ { Id = id });
@@ -60,7 +61,7 @@ namespace ECommerce.Application.Services
                 return new ErrorResult();
             }
 
-            await _attributeRepository.UpdateAsync(attribute);
+            await _attributeRepository.UpdateAsync(attribute).ConfigureAwait(false);
 
             return new SuccessResult();
         }

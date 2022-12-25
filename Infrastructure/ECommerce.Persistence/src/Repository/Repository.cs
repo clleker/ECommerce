@@ -10,13 +10,15 @@ using System.Reflection;
 
 namespace ECommerce.Persistence.Repository
 {
-    public class Repository<T>: Core.Persistance.Repository.IRepository<T>
-         where T : class, IEntity, new() 
+    public class Repository<T,TContext>: Core.Persistance.Repository.IRepository<T>
+         where T : class, IEntity, new()
+         where TContext : DbContext
+
     {
-        readonly private MainDbContext _context;
+        readonly private TContext _context;
         private readonly EntityAuditingOptions _entityAuditingOptions = new EntityAuditingOptions();
 
-        public Repository(MainDbContext context)
+        public Repository(TContext context)
         {
             _context = context;
         }

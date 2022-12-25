@@ -14,7 +14,7 @@ namespace ECommerce.Application.Abstracts.Attribute
     {
         public AttributeUpdateInDtoValidator()
         {
-            RuleFor(c => c.Name).NotEmpty().MaximumLength(100);
+            RuleFor(c => c.Name).NotNull().MaximumLength(100);
         }
     }
  

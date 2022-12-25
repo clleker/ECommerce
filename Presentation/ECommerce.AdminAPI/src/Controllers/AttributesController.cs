@@ -13,7 +13,7 @@ namespace ECommerce.AdminAPI.Controllers
             _attributeService = attributeService;
         }
 
-        [Authorize(ECommercePermissionPolicy.Attribute_Add)]
+        //[Authorize(Roles = ECommercePermissionPolicy.Attribute_Add)]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] AttributeAddInDto request)
         {
@@ -56,7 +56,7 @@ namespace ECommerce.AdminAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
-            var response = await _attributeService.GetListAsync().ConfigureAwait(false);
+            var response = await _attributeService.GetByIdAsync(id).ConfigureAwait(false);
 
             if (!response.Success)
             {

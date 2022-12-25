@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,12 +20,12 @@
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\ECommerce.Application\ECommerce.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ECommerce.Persistence\ECommerce.Persistence.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Infrastructure\ECommerce.Common\ECommerce.Common.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Infrastructure\ECommerce.Infrastructure\ECommerce.Infrastructure.csproj" />
     <ProjectReference Include="..\ECommerce.WebAPI\ECommerce.WebAPI.csproj" />
   </ItemGroup>
