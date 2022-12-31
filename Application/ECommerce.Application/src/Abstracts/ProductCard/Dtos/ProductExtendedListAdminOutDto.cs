@@ -13,7 +13,6 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
         /// </summary>
         public string ShortDescription { get; set; }
 
-
         /// <summary>
         /// it's for products' detail page
         /// </summary>
@@ -28,6 +27,10 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
         /// it's for products' detail page
         /// </summary>
         public string AdditionalInfo { get; set; }
+
+        public ProductExtendedAttributeSubAdminOutDto Attribute { get; set; }
+
+        public ProductExtendedAttributeGroupSubAdminOutDto AttributeGroup { get; set; }
 
         public string Barcode { get; set; }
 
@@ -45,5 +48,16 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
         public string CategoryName { get; set; }
     }
 
+
+    public class ProductExtendedAttributeSubAdminOutDto
+    {
+        public int AttributeId { get; set; }
+        public string AttributeName { get; set; }
+    }
+    public class ProductExtendedAttributeGroupSubAdminOutDto
+    {
+        public int AttributeGroupId { get; set; }
+        public string AttributeGroupName { get; set; }
+    }
 
 }

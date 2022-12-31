@@ -77,7 +77,7 @@ namespace ECommerce.Application.Services.ProductCard
 
         public async Task<IResult> AddPicturesToProduct(ProductPictureAddInDto request)
         {
-                var blogServiceResult = await _storageService.UploadAsync("images", request.Pictures);
+            var blogServiceResult = await _storageService.UploadAsync("images", request.Pictures);
 
             foreach (var item in blogServiceResult)
             {
@@ -125,6 +125,16 @@ namespace ECommerce.Application.Services.ProductCard
                     LongDescription = x.ProductCardAttribute.ProductAttributeGroup.Product.LongDescription,
                     Name = x.ProductCardAttribute.ProductAttributeGroup.Product.Name,
                     ProductDetail = x.ProductCardAttribute.ProductAttributeGroup.Product.ProductDetail,
+                    Attribute = new ProductExtendedAttributeSubAdminOutDto
+                    {
+                        AttributeId = x.ProductCardAttribute.Attribute.Id,
+                        AttributeName = x.ProductCardAttribute.Attribute.Name
+                    },
+                    AttributeGroup = new ProductExtendedAttributeGroupSubAdminOutDto
+                    {
+                        AttributeGroupId = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroupId,
+                        AttributeGroupName = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroup.Title
+                    },
                     ShortDescription = x.ProductCardAttribute.ProductAttributeGroup.Product.ShortDescription,
                     Categories = x.ProductCardAttribute.ProductAttributeGroup.Product.ProductCategories.Select(y => new CategoryListAdminSubOutDto { CategoryId = y.Category.Id, CategoryName = y.Category.Name }),
                     Barcode = x.Barcode,
@@ -138,6 +148,8 @@ namespace ECommerce.Application.Services.ProductCard
                 .ThenInclude(x => x.Product)
                 .ThenInclude(x => x.ProductCategories)
                 .ThenInclude(x => x.Category)
+                .Include(x => x.ProductCardAttribute)
+                .ThenInclude(x => x.Attribute)
                 .Include(x => x.ProductCardPrice));
 
             if (request.Orders?.Any() == true)
