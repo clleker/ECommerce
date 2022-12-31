@@ -1,5 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Application.Abstracts.ProductCard
 {
@@ -28,17 +27,18 @@ namespace ECommerce.Application.Abstracts.ProductCard
         /// </summary>
         public string AdditionalInfo { get; set; }
 
-        public ProductCardAttributesGroupAddInDto[] ProductCardAttributesGroupAddInDto { get; set; }
-
+        public int[] CategoryIds { get; set; }
+        public ProductCardAttributesGroupAddInDto[] ProductCardAttributesGroup { get; set; }
     }
 
+   
     public class ProductCardAttributesGroupAddInDto
     {
         public int ProductId { get; set; }
 
         public int AttributeGroupId { get; set; }
 
-        public ProductCardAttributesAddInDto[] ProductCardAttributesAddInDto { get; set; }
+        public ProductCardAttributesAddInDto[] ProductCardAttributes { get; set; }
     }
 
     public class ProductCardAttributesAddInDto
@@ -46,7 +46,7 @@ namespace ECommerce.Application.Abstracts.ProductCard
         public int AttributeId { get; set; }
         public int ProductAttributeGroupId { get; set; }
         public int ParentId { get; set; }
-        public ProductCardItemAddInDto ProductCardItemAddInDto { get; set; }
+        public ProductCardItemAddInDto ProductCardItem{ get; set; }
     }
 
     public class ProductCardItemAddInDto
@@ -55,12 +55,12 @@ namespace ECommerce.Application.Abstracts.ProductCard
 
         public string Barcode { get; set; }
 
-        public ProductCardPriceAddInDto ProductCardPriceAddInDto { get; set; }
+        public ProductCardPriceAddInDto ProductCardPrice { get; set; }
 
-        public IList<ProductCardPictureAddInDto> ProductCardPictureAddInDto { get; set; }
     }
 
-    public class ProductCardPriceAddInDto
+
+public class ProductCardPriceAddInDto
     {
         /// <summary>
         /// SalesPrice
@@ -81,11 +81,4 @@ namespace ECommerce.Application.Abstracts.ProductCard
         /// </summary>
         public decimal ProductCost { get; set; }
     }
-
-    public class ProductCardPictureAddInDto
-    {
-        public string Dummy { get; set; }
-        public IFormFile[] Pictures { get; set; }
-    }
-
 }

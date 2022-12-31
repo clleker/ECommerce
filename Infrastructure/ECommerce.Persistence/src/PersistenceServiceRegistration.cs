@@ -18,19 +18,24 @@ namespace ECommerce.Persistance
 
             #region DataBase Connecttion Config
             services.AddDbContext<MainDbContext>(options =>
-                 options.UseSqlServer(connectionString),ServiceLifetime.Transient);
+            {
+                options.UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging();
+                
+            }, ServiceLifetime.Scoped);
 
             #endregion
 
 
-            services.AddTransient<IRepository<Product>, Repository<Product,MainDbContext>>();
-            services.AddTransient<IRepository<Attribute_>, Repository<Attribute_, MainDbContext>>();
-            services.AddTransient<IRepository<AttributeGroup>, Repository<AttributeGroup, MainDbContext>>();
-            services.AddTransient<IRepository<Category>, Repository<Category, MainDbContext>>();
-            services.AddTransient<IRepository<AppUser>, Repository<AppUser, MainDbContext>>();
-            services.AddTransient<IRepository<Customer>, Repository<Customer, MainDbContext>>();
-            services.AddTransient<IRepository<AuthGroupRole>, Repository<AuthGroupRole, MainDbContext>>();
-            services.AddTransient<IRepository<AuthGroup>, Repository<AuthGroup, MainDbContext>>();
+            services.AddScoped<IRepository<Product>, Repository<Product,MainDbContext>>();
+            services.AddScoped<IRepository<Attribute_>, Repository<Attribute_, MainDbContext>>();
+            services.AddScoped<IRepository<AttributeGroup>, Repository<AttributeGroup, MainDbContext>>();
+            services.AddScoped<IRepository<Category>, Repository<Category, MainDbContext>>();
+            services.AddScoped<IRepository<AppUser>, Repository<AppUser, MainDbContext>>();
+            services.AddScoped<IRepository<Customer>, Repository<Customer, MainDbContext>>();
+            services.AddScoped<IRepository<AuthGroupRole>, Repository<AuthGroupRole, MainDbContext>>();
+            services.AddScoped<IRepository<AuthGroup>, Repository<AuthGroup, MainDbContext>>();
+            services.AddScoped<IRepository<ProductCard>, Repository<ProductCard, MainDbContext>>();
 
 
             //services.AddRelationData<MainDbContext>(

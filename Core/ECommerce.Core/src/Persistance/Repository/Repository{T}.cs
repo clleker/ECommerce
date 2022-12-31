@@ -121,25 +121,17 @@ namespace ECommerce.Core.Persistance.Repository
             where TResult : class;
 
 
-        void Add(T entity);
-
         Task AddAsync(T entity, CancellationToken token = default(CancellationToken));
 
         void AddRange(IEnumerable<T> entities);
 
         Task AddRangeAsync(IEnumerable<T> entities, CancellationToken token = default(CancellationToken));
 
-        void Delete(T entity);
-
         Task DeleteAsync(T entity, CancellationToken token = default(CancellationToken));
 
         void DeleteRange(IEnumerable<T> entities);
 
         Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken token = default(CancellationToken));
-
-        //(IDataContext dataContext, bool isUow, IQueryable<T> dbSet) GetDbSetByQuery(bool disableTracking = false);
-
-        void Update(T entity);
 
         Task UpdateAsync(T entity, CancellationToken token = default(CancellationToken));
 

@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
 using ECommerce.Application.Abstracts.Attribute;
+using ECommerce.Application.Abstracts.Attributes.Constant;
 using ECommerce.Application.Constants;
 using ECommerce.Core.Application.CrossCuttingConcerns.Aspects;
 using ECommerce.Core.Application.ObjectDesign;
+using ECommerce.Core.Common.Utils;
 using ECommerce.Core.Persistance.Repository;
 using ECommerce.Domain.Entities;
 
 namespace ECommerce.Application.Services
 {
     public class AttributeService : IAttributeService
-    {   
+    {
         private readonly IMapper _mapper;
         private readonly IRepository<Attribute_> _attributeRepository;
         public AttributeService(
@@ -25,11 +27,13 @@ namespace ECommerce.Application.Services
         {
             var attribute = _mapper.Map<Attribute_>(request);
 
+            attribute = ObjectUtils.TrimWhiteSpace(attribute);
+
             var dbAttribute = await this.GetByNameAsync(attribute.Name).ConfigureAwait(false);
 
             if (dbAttribute != null)
             {
-              return new ErrorResult(Messages.AttributeAlreadyExist);
+                return new ErrorResult(Messages.AttributeAlreadyExist);
             }
 
             await _attributeRepository.AddAsync(attribute).ConfigureAwait(false);
@@ -39,26 +43,35 @@ namespace ECommerce.Application.Services
 
         public async Task<IResult> DeleteAsync(int id)
         {
-            await _attributeRepository.DeleteAsync(new Attribute_ { Id = id });
+            var attribute = await _attributeRepository.GetFirstOrDefaultAsync(predicate: x => x.Id == id).ConfigureAwait(false);
+
+            if(attribute == null)
+            {
+                return new ErrorResult(AttributeConstant.NotFound);
+            }
+
+            await _attributeRepository.DeleteAsync(attribute);
 
             return new SuccessResult();
         }
         public async Task<Attribute_> GetByNameAsync(string attributeName)
         {
-           return await _attributeRepository.GetFirstOrDefaultAsync(predicate: x => x.Name == attributeName).ConfigureAwait(false);
+            return await _attributeRepository.GetFirstOrDefaultAsync(predicate: x => x.Name == attributeName).ConfigureAwait(false);
         }
 
 
-        [ValidationAspect(typeof(AttributeUpdateInDto), Priority = 1)]
+        //[ValidationAspect(typeof(AttributeUpdateInDto), Priority = 1)]
         public async Task<IResult> UpdateAsync(AttributeUpdateInDto request)
         {
             var attribute = _mapper.Map<Attribute_>(request);
+
+            attribute = ObjectUtils.TrimWhiteSpace(attribute);
 
             var dbAttribute = await _attributeRepository.GetFirstOrDefaultAsync(predicate: x => x.Name == attribute.Name && x.Id != attribute.Id).ConfigureAwait(false);
 
             if (dbAttribute != null)
             {
-                return new ErrorResult();
+                return new ErrorResult(AttributeConstant.NotFound);
             }
 
             await _attributeRepository.UpdateAsync(attribute).ConfigureAwait(false);

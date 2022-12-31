@@ -17,17 +17,14 @@ namespace ECommerce.Persistence.Repository
     {
         private readonly TContext _context;
         private readonly EntityAuditingOptions _entityAuditingOptions = new EntityAuditingOptions();
-
+        public DbSet<T> DbSet;
         public Repository(TContext context)
         {
             _context = context;
+            DbSet = _context.Set<T>();
         }
 
-        public DbSet<T> DbSet => _context.Set<T>();
-
-
         #region Audit
-
         private void SetDeleteAuditInfoToEntity(T entity)
         {
             if (entity is IDeleteAuditing d)
@@ -383,6 +380,7 @@ namespace ECommerce.Persistence.Repository
             }
             else
             {
+               _context.ChangeTracker.Clear(); 
                DbSet.Remove(entity);
             }
 

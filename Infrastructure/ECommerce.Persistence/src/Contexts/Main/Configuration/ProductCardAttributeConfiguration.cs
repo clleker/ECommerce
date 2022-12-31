@@ -4,14 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ECommerce.Persistence.Contexts.Main.Configuration
 {
-    internal class AttributeConfiguration : IEntityTypeConfiguration<Attribute_>
+    internal class ProductCardAttributeConfiguration : IEntityTypeConfiguration<ProductCardAttribute>
     {
-        public void Configure(EntityTypeBuilder<Attribute_> builder)
+        public void Configure(EntityTypeBuilder<ProductCardAttribute> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(a => a.Id).IsRequired();
-            builder.Property(a => a.Name).IsRequired().HasMaxLength(255);
-            builder.Property(a => a.Description).IsRequired(false).HasMaxLength(255);
         }
     }
 }

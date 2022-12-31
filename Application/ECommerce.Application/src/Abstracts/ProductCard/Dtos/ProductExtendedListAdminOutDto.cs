@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace ECommerce.Application.Abstracts.ProductCard.Dtos
 {
-    public class ProductListAdminOutDto
+    public class ProductExtendedListAdminOutDto
     {
         public int Id { get; set; }
 
@@ -33,7 +29,21 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
         /// </summary>
         public string AdditionalInfo { get; set; }
 
-        public string CategoryName { get; set; }
+        public string Barcode { get; set; }
+
+        public string Sku { get; set; }
+
+        public decimal SalesPrice { get; set; }
+
+        public IEnumerable<CategoryListAdminSubOutDto> Categories { get; set; }
 
     }
+
+    public class CategoryListAdminSubOutDto
+    {
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+    }
+
+
 }

@@ -13,7 +13,7 @@ namespace ECommerce.AdminAPI.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> Add([FromForm] CategoryAddInDto request)
         {
             var response = await _categoryService.AddAsync(request).ConfigureAwait(false);
@@ -26,7 +26,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPatch]
+        [HttpPatch("update")]
         public async Task<IActionResult> Update([FromBody] CategoryUpdateInDto request)
         {
             var response = await _categoryService.UpdateAsync(request).ConfigureAwait(false);
@@ -39,7 +39,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("getList")]
         public async Task<IActionResult> GetList()
         {
             var response = await _categoryService.GetListAsync().ConfigureAwait(false);
@@ -52,7 +52,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("getById")]
         public async Task<IActionResult> GetById(int id)
         {
             var response = await _categoryService.GetByIdAsync(id).ConfigureAwait(false);

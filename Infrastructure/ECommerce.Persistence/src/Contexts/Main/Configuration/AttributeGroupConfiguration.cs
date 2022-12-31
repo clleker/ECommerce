@@ -10,6 +10,7 @@ namespace ECommerce.Persistence.Contexts.Main.Configuration
     {
         public void Configure(EntityTypeBuilder<AttributeGroup> builder)
         {
+            builder.HasKey(x => x.Id);
             builder.Property(ag => ag.Id).IsRequired();
             builder.Property(ag => ag.Title).IsRequired().HasMaxLength(255);
         }

@@ -11,7 +11,7 @@ namespace ECommerce.AdminAPI.Controllers
             _attributeGroupService = attributeGroupService;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] AttributeGroupAddInDto request)
         {
             var response = await _attributeGroupService.AddAsync(request).ConfigureAwait(false);
@@ -24,7 +24,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPatch]
+        [HttpPatch("update")]
         public async Task<IActionResult> Update([FromBody] AttributeGroupUpdateInDto request)
         {
             var response = await _attributeGroupService.UpdateAsync(request).ConfigureAwait(false);
@@ -37,7 +37,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("getList")]
         public async Task<IActionResult> GetList()
         {
             var response = await _attributeGroupService.GetListAsync().ConfigureAwait(false);
@@ -50,7 +50,7 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("getById")]
         public async Task<IActionResult> GetById(int id)
         {
             var response = await _attributeGroupService.GetByIdAsync(id).ConfigureAwait(false);

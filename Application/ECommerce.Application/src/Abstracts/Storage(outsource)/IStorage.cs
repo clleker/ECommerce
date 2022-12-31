@@ -16,5 +16,6 @@ namespace ECommerce.Application.Services.Storage
 
         List<string> GetFiles(string pathOrContainerName);
         bool HasFile(string pathOrContainerName, string fileName);
+        Task UploadAsync(string v, IFormFile picture);
     }
 }

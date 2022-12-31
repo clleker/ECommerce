@@ -20,7 +20,7 @@ namespace ECommerce.Application.Services
             _attributeGroupRepository = attributeRepository;
         }
 
-        [ValidationAspect(typeof(AttributeGroupAddInDto), Priority = 1)]
+        //[ValidationAspect(typeof(AttributeGroupAddInDto), Priority = 1)]
         public async Task<IResult> AddAsync(AttributeGroupAddInDto request)
         {
             var attributeGroup = _mapper.Map<AttributeGroup>(request);
@@ -40,7 +40,7 @@ namespace ECommerce.Application.Services
             return new SuccessResult();
         }
 
-        [ValidationAspect(typeof(AttributeGroupUpdateInDto), Priority = 1)]
+        //[ValidationAspect(typeof(AttributeGroupUpdateInDto), Priority = 1)]
         public async Task<IResult> UpdateAsync(AttributeGroupUpdateInDto request)
         {
             var attributeGroup = _mapper.Map<AttributeGroup>(request);

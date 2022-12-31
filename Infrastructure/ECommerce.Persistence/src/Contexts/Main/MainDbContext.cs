@@ -15,7 +15,7 @@ namespace ECommerce.Persistence.Contexts.Main
 
         // Remove-Migration -Context ECommerce.Persistence.Contexts.Main.MainDbContext -Project ECommerce.Persistence -StartupProject ECommerce.AdminAPI
 
-        public MainDbContext(DbContextOptions<MainDbContext> options)
+        public MainDbContext(DbContextOptions options)
         : base(options)
         {
         }

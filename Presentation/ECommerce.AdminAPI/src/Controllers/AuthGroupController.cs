@@ -13,7 +13,7 @@ namespace ECommerce.AdminAPI.Controllers
             _authGroupRoleService = authGroupRoleService;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] AuthGroupWithRoleAddInDto request)
         {
             var response = await _authGroupRoleService.AddWithRolesAsync(request).ConfigureAwait(false);

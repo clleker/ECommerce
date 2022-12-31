@@ -14,8 +14,8 @@ namespace ECommerce.AdminAPI.Controllers
             _productCardService = productCardService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add([FromForm] ProductCardAddInDto request)
+        [HttpPost("add")]
+        public async Task<IActionResult> Add([FromBody] ProductCardAddInDto request)
         {
             var response = await _productCardService.AddAsync(request).ConfigureAwait(false);
 
@@ -25,12 +25,25 @@ namespace ECommerce.AdminAPI.Controllers
             }
 
             return Ok(response);
-        }
+        } 
 
-        [HttpPost]
+        //[HttpPost]
+        //public async Task<IActionResult> GetListProductByPaging(ProductPagedListAdminInDto request)
+        //{
+        //    var response = await _productCardService.GetListProductByPagingAsync(request).ConfigureAwait(false);
+
+        //    if (!response.Success)
+        //    {
+        //        return this.BadRequest(response);
+        //    }
+
+        //    return Ok(response);
+        //}
+
+        [HttpPost("getExtendedProductCardList")]
         public async Task<IActionResult> GetListProductByPaging(ProductPagedListAdminInDto request)
         {
-            var response = await _productCardService.GetListProductByPagingAsync(request).ConfigureAwait(false);
+            var response = await _productCardService.GetExtendedProductCardListByPagingAsync(request).ConfigureAwait(false);
 
             if (!response.Success)
             {
@@ -39,6 +52,20 @@ namespace ECommerce.AdminAPI.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("addProductCardPictures")]
+        public async Task<IActionResult> AddProductCardPictures(ProductPictureAddInDto request)
+        {
+            var response = await _productCardService.AddPictureToProduct(request).ConfigureAwait(false);
+
+            if (!response.Success)
+            {
+                return this.BadRequest(response);
+            }
+
+            return Ok(response);
+        }
+
 
     }
 }

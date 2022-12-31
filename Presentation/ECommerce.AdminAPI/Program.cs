@@ -4,8 +4,6 @@ using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Core.Utilities.Security.Encyption;
 using ECommerce.Application;
-using ECommerce.Core.CrossCuttingConcerns.Logging;
-using ECommerce.Core.CrossCuttingConcerns.Logging.Serilog;
 using ECommerce.Core.Utilities.Security;
 using ECommerce.Infrastructure;
 using ECommerce.Persistance;
@@ -15,8 +13,11 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 //Auto Fact DI https://stackoverflow.com/questions/69754985/adding-autofac-to-net-core-6-0-using-the-new-single-file-template
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule(new AutofacBusinessModule());
+    });
 
 // Add services to the container.
 builder.Services.AddControllers();

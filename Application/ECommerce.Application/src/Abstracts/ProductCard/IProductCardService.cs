@@ -6,11 +6,19 @@ using ECommerce.Core.Persistance.PagedList;
 
 namespace ECommerce.Application.Abstracts.ProductCard
 {
-    public interface IProductCardService:IApplicationService
+    public interface IProductCardService : IApplicationService
     {
         Task<IResult> AddAsync(ProductCardAddInDto request);
-        Task<IDataResult<IPagedList<ProductListAdminOutDto>>> GetListProductByPagingAsync(ProductPagedListAdminInDto request);
 
+        /// <summary>
+        /// Her bir product nesnesini döndürür.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        //Task<IDataResult<IPagedList<ProductListAdminOutDto>>> GetListProductByPagingAsync(ProductPagedListAdminInDto request);
+
+        Task<IDataResult<IPagedList<ProductExtendedListAdminOutDto>>> GetExtendedProductCardListByPagingAsync(ProductPagedListAdminInDto request);
+        Task<IResult> AddPictureToProduct(ProductPictureAddInDto request);
 
     }
 }
