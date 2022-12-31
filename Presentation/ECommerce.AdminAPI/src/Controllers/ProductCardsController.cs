@@ -53,10 +53,10 @@ namespace ECommerce.AdminAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPost("addProductCardPictures")]
+        [HttpPost("addPicturesToProduct")]
         public async Task<IActionResult> AddProductCardPictures(ProductPictureAddInDto request)
         {
-            var response = await _productCardService.AddPictureToProduct(request).ConfigureAwait(false);
+            var response = await _productCardService.AddPicturesToProduct(request).ConfigureAwait(false);
 
             if (!response.Success)
             {

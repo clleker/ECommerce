@@ -18,7 +18,7 @@ namespace ECommerce.Application.Abstracts.ProductCard
         //Task<IDataResult<IPagedList<ProductListAdminOutDto>>> GetListProductByPagingAsync(ProductPagedListAdminInDto request);
 
         Task<IDataResult<IPagedList<ProductExtendedListAdminOutDto>>> GetExtendedProductCardListByPagingAsync(ProductPagedListAdminInDto request);
-        Task<IResult> AddPictureToProduct(ProductPictureAddInDto request);
+        Task<IResult> AddPicturesToProduct(ProductPictureAddInDto request);
 
     }
 }

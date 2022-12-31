@@ -75,7 +75,7 @@ namespace ECommerce.Application.Services.ProductCard
             return new SuccessResult();
         }
 
-        public async Task<IResult> AddPictureToProduct(ProductPictureAddInDto request)
+        public async Task<IResult> AddPicturesToProduct(ProductPictureAddInDto request)
         {
                 var blogServiceResult = await _storageService.UploadAsync("images", request.Pictures);
 
