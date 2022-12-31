@@ -120,7 +120,7 @@ namespace ECommerce.Application.Services.ProductCard
             var query = _productCardRepository.GetQueryable(
                 selector: x => new ProductExtendedListAdminOutDto
                 {
-                    Id = x.Id,
+                    ProductCardId = x.Id,
                     AdditionalInfo = x.ProductCardAttribute.ProductAttributeGroup.Product.AdditionalInfo,
                     LongDescription = x.ProductCardAttribute.ProductAttributeGroup.Product.LongDescription,
                     Name = x.ProductCardAttribute.ProductAttributeGroup.Product.Name,

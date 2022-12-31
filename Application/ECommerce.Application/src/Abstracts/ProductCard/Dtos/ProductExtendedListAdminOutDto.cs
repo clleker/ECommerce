@@ -4,7 +4,7 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
 {
     public class ProductExtendedListAdminOutDto
     {
-        public int Id { get; set; }
+        public int ProductCardId { get; set; }
 
         public string Name { get; set; }
 
