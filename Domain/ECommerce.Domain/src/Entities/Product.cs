@@ -29,7 +29,7 @@ namespace ECommerce.Domain.Entities
         #region Relations
         public ICollection<ProductCategory> ProductCategories { get; set; }
         public ICollection<Specification> ProductSpecifications { get; set; }
-        public ICollection<ProductAttributeGroup> ProductAttributeGroups { get; set; }
+        public IList<ProductAttributeGroup> ProductAttributeGroups { get; set; }
 
         public string DeletedUser { get; set; }
         public DateTime? DeletedDate { get; set; }

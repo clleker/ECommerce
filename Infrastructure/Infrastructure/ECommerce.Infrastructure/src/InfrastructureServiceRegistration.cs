@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Services.Storage;
+using ECommerce.Application.Services.Storage.Azure;
 using ECommerce.Core.Infrastructure.MessageBrokers;
 using ECommerce.Domain.Entities;
 using ECommerce.Infrastructure.Adapters.StorageService.Azure;
@@ -17,6 +18,7 @@ namespace ECommerce.Infrastructure
         {
             services.AddStorage<BlobAdapter>();
             services.AddScoped<IMessageBrokerHelper, MqQueueAdapter>();
+            services.AddScoped<IBlobService, BlobAdapter>();
 
             //serviceCollection.AddScoped<IMailService, MailService>();
             //serviceCollection.AddScoped<IApplicationService, ApplicationService>();

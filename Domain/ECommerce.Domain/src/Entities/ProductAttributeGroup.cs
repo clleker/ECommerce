@@ -14,7 +14,7 @@ namespace ECommerce.Domain.Entities
         public int AttributeGroupId { get; set; }
         public virtual Product Product { get; set; }
         public virtual AttributeGroup AttributeGroup { get; set; }
-        public ICollection<ProductCardAttribute> ProductCardAttributes { get; set; }
+        public List<ProductCardAttribute> ProductCardAttributes { get; set; }
 
         #endregion
 

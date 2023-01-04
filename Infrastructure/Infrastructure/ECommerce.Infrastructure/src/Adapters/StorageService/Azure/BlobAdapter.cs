@@ -23,7 +23,7 @@ namespace ECommerce.Infrastructure.Adapters.StorageService.Azure
             _configuration = configuration;
         }
 
-        public string GetBlobUrl() => _configuration["Azure:BlobStorage:Address"];
+        public string GetBlobAddress() => _configuration["Azure:BlobStorage:Address"];
 
         public async Task DeleteAsync(string containerName, string fileName)
         {

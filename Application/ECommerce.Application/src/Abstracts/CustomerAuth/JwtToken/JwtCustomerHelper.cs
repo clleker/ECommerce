@@ -33,10 +33,9 @@ namespace ECommerce.Application.Abstracts.CustomerAuth.JwtToken
                 Token = token,
                 Expiration = _accessTokenExpiration
             };
-
         }
 
-        public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, Domain.Entities.Customer user, 
+        private JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, Domain.Entities.Customer user, 
             SigningCredentials signingCredentials)
         {
             var jwt = new JwtSecurityToken(

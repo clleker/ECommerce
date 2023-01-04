@@ -3,7 +3,7 @@
 
 namespace ECommerce.Application.Abstracts.ProductCard.Dtos
 {
-    public class ProductPictureAddInDto
+    public class ProductCardPictureAddInDto
     {
         public int ProductCardId { get; set; }
 

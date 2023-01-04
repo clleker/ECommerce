@@ -14,7 +14,7 @@ namespace ECommerce.Persistence.Contexts.Main
         // Update-Database -Context ECommerce.Persistence.Contexts.Main.MainDbContext -Project ECommerce.Persistence -StartupProject ECommerce.AdminAPI
 
         // Remove-Migration -Context ECommerce.Persistence.Contexts.Main.MainDbContext -Project ECommerce.Persistence -StartupProject ECommerce.AdminAPI
-
+            
         public MainDbContext(DbContextOptions options)
         : base(options)
         {
@@ -33,9 +33,10 @@ namespace ECommerce.Persistence.Contexts.Main
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<ProductCard> ProductCards { get; set; }
         public DbSet<ProductCardPrice> ProductCardPrices { get; set; }
+        public DbSet<ProductCardAttribute> ProductCardAttributes { get; set; }
+        public DbSet<ProductCardPicture> ProductCardPictures { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<ProductCardAttribute> ProductCardAttributes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

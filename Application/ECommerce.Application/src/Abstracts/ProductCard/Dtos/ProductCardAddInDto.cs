@@ -28,11 +28,15 @@ namespace ECommerce.Application.Abstracts.ProductCard
         public string AdditionalInfo { get; set; }
 
         public int[] CategoryIds { get; set; }
-        public ProductCardAttributesGroupAddInDto[] ProductCardAttributesGroup { get; set; }
+
+        /// <summary>
+        /// Attribute Groups --> Boyut, Renk 
+        /// </summary>
+        public ProductAttributesGroupAddInDto[] ProductAttributeGroups { get; set; }
     }
 
    
-    public class ProductCardAttributesGroupAddInDto
+    public class ProductAttributesGroupAddInDto
     {
         public int ProductId { get; set; }
 
@@ -43,9 +47,9 @@ namespace ECommerce.Application.Abstracts.ProductCard
 
     public class ProductCardAttributesAddInDto
     {
+        public int Id { get; set; }
         public int AttributeId { get; set; }
         public int ProductAttributeGroupId { get; set; }
-        public int ParentId { get; set; }
         public ProductCardItemAddInDto ProductCardItem{ get; set; }
     }
 

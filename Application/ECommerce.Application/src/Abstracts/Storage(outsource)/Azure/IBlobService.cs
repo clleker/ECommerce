@@ -9,6 +9,7 @@ namespace ECommerce.Application.Services.Storage.Azure
         ///// </summary>
         ///// <returns>String.</returns>
         //string GetBlobStorageAddress();
+         string GetBlobAddress();
 
         ///// <summary>
         ///// Provides blob storage urls.

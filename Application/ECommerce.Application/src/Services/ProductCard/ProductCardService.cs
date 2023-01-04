@@ -8,33 +8,47 @@ using ECommerce.Core.Persistance.Repository;
 using ECommerce.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Application.Services.Storage;
+using ECommerce.Application.Abstracts.Picture;
+using ECommerce.Application.Abstracts.Picture.Dtos;
+using ECommerce.Domain.Enums;
+using ECommerce.Application.Abstracts.Picture.Constant;
 
 namespace ECommerce.Application.Services.ProductCard
 {
     public class ProductCardService : IProductCardService
     {
-        private readonly IMapper _mapper;
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<Domain.Entities.ProductCard> _productCardRepository;
+        private readonly IRepository<ProductCardPicture> _productCardPictureRepository;
+        private readonly IRepository<ProductCardAttribute> _productCardAttributeRepository;
+        private readonly IPictureService _pictureService;
         private readonly IStorage _storageService;
+        private readonly IMapper _mapper;
+
 
 
         public ProductCardService(
             IMapper mapper,
             IRepository<Product> productRepository,
             IRepository<Domain.Entities.ProductCard> productCardRepository,
-            IStorage storageService)
+            IStorage storageService,
+            IRepository<ProductCardAttribute> productCardAttributeRepository,
+            IPictureService pictureService, IRepository<ProductCardPicture> productCardPictureRepository)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productCardRepository = productCardRepository;
             _storageService = storageService;
+            _productCardAttributeRepository = productCardAttributeRepository;
+            _pictureService = pictureService;
+            _productCardPictureRepository = productCardPictureRepository;
         }
 
         public async Task<IResult> AddAsync(ProductCardAddInDto request)
         {
             //ValidationTool.Validate(new AttributeAddInDtoValidator(), request);
 
+            #region FirstStepAdd
             var product = new Product
             {
                 Id = request.Id,
@@ -46,46 +60,118 @@ namespace ECommerce.Application.Services.ProductCard
                 ProductCategories = request.CategoryIds.Select(categoryId => new ProductCategory
                 {
                     CategoryId = categoryId,
-                }).ToList(),
-                ProductAttributeGroups = request.ProductCardAttributesGroup.Select(x => new ProductAttributeGroup
+                }).ToList()
+            };
+
+            product.ProductAttributeGroups = request.ProductAttributeGroups.Select(x => new ProductAttributeGroup
+            {
+                AttributeGroupId = x.AttributeGroupId,
+            }).ToList();
+
+            await _productRepository.AddAsync(product);
+            #endregion
+
+
+            var productAttrGroupsCount = product.ProductAttributeGroups.Count;
+
+            List<ProductCardAttribute> productCardAttributeList = new();
+
+            for (int i = 0; i < productAttrGroupsCount; i++)
+            {
+                //bir adet ürün ekleme
+                if (i == 0)
                 {
-                    AttributeGroupId = x.AttributeGroupId,
-                    ProductCardAttributes = x.ProductCardAttributes.Select(y => new ProductCardAttribute
+                    productCardAttributeList = request.ProductAttributeGroups[i].ProductCardAttributes.Select(y => new ProductCardAttribute
                     {
                         AttributeId = y.AttributeId,
-                        ParentId = y.ParentId,
-                        ProductAttributeGroupId = y.ProductAttributeGroupId,//- 
-                        ProductCard = y != null ? new Domain.Entities.ProductCard
+                        ProductAttributeGroupId = product.ProductAttributeGroups[i].Id,
+                        ProductCard = productAttrGroupsCount == (i + 1) ? new Domain.Entities.ProductCard
                         {
                             Sku = y.ProductCardItem.Sku,
                             Barcode = y.ProductCardItem.Barcode,
-                            Pictures = null,
                             ProductCardPrice = new ProductCardPrice
                             {
                                 SalesPrice = y.ProductCardItem.ProductCardPrice.SalesPrice,
                                 IncludingVatPrice = y.ProductCardItem.ProductCardPrice.IncludingVatPrice,
                             },
                         } : null
-                    }).ToList(),
-                }).ToList()
-            };
+                    }).ToList();
 
-            await _productRepository.AddAsync(product);
+                    await _productCardAttributeRepository.AddRangeAsync(productCardAttributeList);
+                }
+                else
+                {
+                    AddProductCartAttributeGreaterOne(i);
+                }
+
+            }
+            #region Inner Method
+            //birden fazla ilişkili Attributeler için ürün ekleme
+            async Task AddProductCartAttributeGreaterOne(int i)
+            {
+                List<ProductCardAttribute> temp = new();
+                foreach (var parent in productCardAttributeList)
+                {
+                    temp.AddRange(request.ProductAttributeGroups[i].ProductCardAttributes.DistinctBy(x => x.AttributeId).Select(y => new ProductCardAttribute
+                    {
+                        AttributeId = y.AttributeId,
+                        ProductAttributeGroupId = product.ProductAttributeGroups[i].Id,
+                        ParentProductCardAttributeId = i == 0 ? null : parent.Id,
+                        ProductCard = productAttrGroupsCount == (i + 1) ? new Domain.Entities.ProductCard
+                        {
+                            Sku = y.ProductCardItem.Sku,
+                            Barcode = y.ProductCardItem.Barcode,
+                            ProductCardPrice = new ProductCardPrice
+                            {
+                                SalesPrice = y.ProductCardItem.ProductCardPrice.SalesPrice,
+                                IncludingVatPrice = y.ProductCardItem.ProductCardPrice.IncludingVatPrice,
+                            },
+                        } : null,
+                    }).ToList());
+                }
+                productCardAttributeList = temp;
+                await _productCardAttributeRepository.AddRangeAsync(productCardAttributeList);
+            }
+            #endregion
 
             return new SuccessResult();
         }
 
-        public async Task<IResult> AddPicturesToProduct(ProductPictureAddInDto request)
+        //ProductCard = productAttrGroupsCount == (i+1) ? new Domain.Entities.ProductCard
+        //{
+        //    Sku = y.ProductCardItem.Sku,
+        //    Barcode = y.ProductCardItem.Barcode,
+        //    ProductCardPrice = new ProductCardPrice
+        //    {
+        //        SalesPrice = y.ProductCardItem.ProductCardPrice.SalesPrice,
+        //        IncludingVatPrice = y.ProductCardItem.ProductCardPrice.IncludingVatPrice,
+        //    },
+        //} : null
+
+        public async Task<IResult> AddPicturesToProduct(ProductCardPictureAddInDto request)
         {
             var blogServiceResult = await _storageService.UploadAsync("images", request.Pictures);
 
-            foreach (var item in blogServiceResult)
+            foreach (var image in blogServiceResult)
             {
-                Console.WriteLine(item);
-            }
-            //category.UrlImage = string.Concat(blogServiceResult[0].pathOrContainerName, blogServiceResult[0].fileName);
+                var picture = await _pictureService.AddAsync(new PictureAddInDto
+                {
+                    FileType = FileTypeEnum.JPG,
+                    FilePath = image.fileName
+                });
 
-            return null;
+                if (!picture.Success)
+                {
+                    return new ErrorResult(PictureConstant.CouldntAddPicture);
+                }
+                await _productCardPictureRepository.AddAsync(new ProductCardPicture
+                {
+                    PictureId = picture.Data.Id,
+                    ProductCardId = request.ProductCardId
+                });
+            }
+
+            return new SuccessResult();
         }
 
 
@@ -125,16 +211,12 @@ namespace ECommerce.Application.Services.ProductCard
                     LongDescription = x.ProductCardAttribute.ProductAttributeGroup.Product.LongDescription,
                     Name = x.ProductCardAttribute.ProductAttributeGroup.Product.Name,
                     ProductDetail = x.ProductCardAttribute.ProductAttributeGroup.Product.ProductDetail,
-                    Attribute = new ProductExtendedAttributeSubAdminOutDto
-                    {
-                        AttributeId = x.ProductCardAttribute.Attribute.Id,
-                        AttributeName = x.ProductCardAttribute.Attribute.Name
-                    },
-                    AttributeGroup = new ProductExtendedAttributeGroupSubAdminOutDto
-                    {
-                        AttributeGroupId = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroupId,
-                        AttributeGroupName = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroup.Title
-                    },
+                    Attribute = 5,
+                    //AttributeGroup = new ProductExtendedAttributeGroupSubAdminOutDto
+                    //{
+                    //    AttributeGroupId = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroupId,
+                    //    AttributeGroupName = x.ProductCardAttribute.ProductAttributeGroup.AttributeGroup.Title
+                    //},
                     ShortDescription = x.ProductCardAttribute.ProductAttributeGroup.Product.ShortDescription,
                     Categories = x.ProductCardAttribute.ProductAttributeGroup.Product.ProductCategories.Select(y => new CategoryListAdminSubOutDto { CategoryId = y.Category.Id, CategoryName = y.Category.Name }),
                     Barcode = x.Barcode,
@@ -161,5 +243,11 @@ namespace ECommerce.Application.Services.ProductCard
             return new DataResult<IPagedList<ProductExtendedListAdminOutDto>>(result, true);
 
         }
+
+
+
+
+
+
     }
 }

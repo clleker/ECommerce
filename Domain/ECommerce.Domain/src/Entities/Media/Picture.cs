@@ -1,5 +1,5 @@
 ﻿using ECommerce.Core.Persistance.Entity;
-
+using ECommerce.Domain.Enums;
 
 namespace ECommerce.Domain.Entities
 {
@@ -7,10 +7,9 @@ namespace ECommerce.Domain.Entities
     {
         public int Id { get; set; }
         public string FilePath { get; set; }
-        public string FileType { get; set; }
+        public FileTypeEnum FileType { get; set; }
 
         public ICollection<ProductCardPicture> ProductCardPictures { get; set; }
-
 
     }
 }

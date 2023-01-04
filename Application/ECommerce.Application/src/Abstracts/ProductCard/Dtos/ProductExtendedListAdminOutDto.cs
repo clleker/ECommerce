@@ -1,5 +1,8 @@
 ﻿
 
+using ECommerce.Domain.Entities;
+using System.Collections.Generic;
+
 namespace ECommerce.Application.Abstracts.ProductCard.Dtos
 {
     public class ProductExtendedListAdminOutDto
@@ -28,9 +31,7 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
         /// </summary>
         public string AdditionalInfo { get; set; }
 
-        public ProductExtendedAttributeSubAdminOutDto Attribute { get; set; }
-
-        public ProductExtendedAttributeGroupSubAdminOutDto AttributeGroup { get; set; }
+        public int Attribute { get; set; }
 
         public string Barcode { get; set; }
 
@@ -52,12 +53,8 @@ namespace ECommerce.Application.Abstracts.ProductCard.Dtos
     public class ProductExtendedAttributeSubAdminOutDto
     {
         public int AttributeId { get; set; }
-        public string AttributeName { get; set; }
+        public IEnumerable<string> AttributeName { get; set; }
     }
-    public class ProductExtendedAttributeGroupSubAdminOutDto
-    {
-        public int AttributeGroupId { get; set; }
-        public string AttributeGroupName { get; set; }
-    }
+   
 
 }

@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Abstracts.Attribute;
+using ECommerce.Application.Abstracts.ProductCardAttribute;
 using ECommerce.Common.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +9,25 @@ namespace ECommerce.AdminAPI.Controllers
     public class AttributesController : BaseController
     {
         private readonly IAttributeService _attributeService;
-        public AttributesController(IAttributeService attributeService)
+        private readonly IProductCardAttributeService _test;
+
+        public AttributesController(IAttributeService attributeService, IProductCardAttributeService test)
         {
             _attributeService = attributeService;
+            _test = test;
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> Test(int id)
+        {
+            var response = await _test.GetWithParentsbyId(id).ConfigureAwait(false);
+
+            if (!response.Success)
+            {
+                return this.BadRequest(response);
+            }
+
+            return Ok(response);
         }
 
         //[Authorize(Roles = ECommercePermissionPolicy.Attribute_Add)]

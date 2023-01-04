@@ -4,6 +4,7 @@ using ECommerce.Persistence.Contexts.Main;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Persistence.src.Contexts.Main.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230102061248_V20")]
+    partial class V20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,8 +309,8 @@ namespace ECommerce.Persistence.src.Contexts.Main.Migrations
                     b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FileType")
-                        .HasColumnType("int");
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -449,7 +452,7 @@ namespace ECommerce.Persistence.src.Contexts.Main.Migrations
 
                     b.HasIndex("ProductCardId");
 
-                    b.ToTable("ProductCardPictures");
+                    b.ToTable("ProductCardPicture");
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.ProductCardPrice", b =>
