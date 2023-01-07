@@ -8,8 +8,6 @@ namespace ECommerce.Application.Abstracts.AuthGroup.Dtos
         /// <summary>
         /// AuthRoleGroupName e.g --> Sales Management,Admin etc.
         /// </summary>
-        public int Name { get; set; }
-
         public int[] RoleIds { get; set; }
     }
 }

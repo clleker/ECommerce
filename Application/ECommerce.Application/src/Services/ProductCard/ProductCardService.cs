@@ -240,7 +240,7 @@ namespace ECommerce.Application.Services.ProductCard
             }
             var result = await query.ToPagedListAsync(request.PageIndex, request.PageSize).ConfigureAwait(false);
 
-            return new DataResult<IPagedList<ProductExtendedListAdminOutDto>>(result, true);
+            return new DataResult<IPagedList<ProductExtendedListAdminOutDto>>(result,true);
 
         }
 

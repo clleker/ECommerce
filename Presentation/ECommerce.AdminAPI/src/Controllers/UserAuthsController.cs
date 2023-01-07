@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.AdminAPI.Controllers
 {
-    public class UserAuthController : BaseController
+    public class UserAuthsController : BaseController
     {
         private IUserAuthService _authService;
         private IMapper _mapper;
-        public UserAuthController(IUserAuthService authService, IMapper mapper)
+        public UserAuthsController(IUserAuthService authService, IMapper mapper)
         {
             _authService = authService;
             _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult> Login(UserForLoginInDto userForLoginDto)
         {
             var userToLogin = await _authService.LoginAsync(userForLoginDto).ConfigureAwait(false);

@@ -39,6 +39,7 @@ namespace ECommerce.Persistance
             services.AddScoped<IRepository<ProductCardAttribute>, Repository<ProductCardAttribute, MainDbContext>>();
             services.AddScoped<IRepository<Picture>, Repository<Picture, MainDbContext>>();
             services.AddScoped<IRepository<ProductCardPicture>, Repository<ProductCardPicture, MainDbContext>>();
+            services.AddScoped<IRepository<AppRole>, Repository<AppRole, MainDbContext>>();
 
 
             //services.AddRelationData<MainDbContext>(

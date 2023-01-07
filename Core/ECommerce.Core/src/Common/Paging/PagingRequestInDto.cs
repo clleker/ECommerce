@@ -1,10 +1,10 @@
 ﻿
 
-using System.ComponentModel.DataAnnotations;
+using ECommerce.Core.src.Common.Paging;
 
 namespace ECommerce.Core.Common.Paging
 {
-    public class PagingRequestInDto
+    public class PagingRequestInDto : BasePagingRequestInDto
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PagedRequestDto"/> class.
@@ -15,15 +15,8 @@ namespace ECommerce.Core.Common.Paging
         }
 
         public List<PagedRequestOrderSubDto> Orders { get; set; }
-
-        [Range(0, int.MaxValue)]
-        public int PageIndex { get; set; }
-
-        [Range(1, int.MaxValue)]
-        public int PageSize { get; set; }
-
-        public string Search { get; set; }
     }
+
     public class PagedRequestOrderSubDto
     {
         public string ColumnName { get; set; }

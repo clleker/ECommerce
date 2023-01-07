@@ -1,5 +1,4 @@
-﻿using Castle.Core.Configuration;
-using ECommerce.Core.Domain.AppUser;
+﻿using ECommerce.Core.Domain.AppUser;
 using ECommerce.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
